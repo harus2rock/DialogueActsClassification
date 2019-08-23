@@ -6,6 +6,8 @@ import random
 import copy
 import chainer
 from chainer import Chain,cuda
+from gensim.models import word2vec
+import os
 
 def reset_seed(seed=0):
     random.seed(seed)
@@ -92,3 +94,11 @@ def copy_model(src, dst):
             for a, b in zip(child.namedparams(), dst_child.namedparams()):
                 b[1].data = copy.deepcopy(a[1].data)
             print('Copy %s' % child.name)
+
+def load_w2v(path):
+    print('Loading word2vec model...')
+    base = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.normpath(os.path.join(base, path))
+    model_w2v = word2vec.Word2Vec.load(path)
+    print("Done.")
+    return model_w2v

@@ -24,3 +24,5 @@ FILE = '0' # FILENAME内の2値分類器
 CONNECT = '1' # 何番目のファイルか
 
 CONST_TEST = 'Test Ok!'
+
+W2V_PATH = r'../data/word2vec/wiki2.model'
