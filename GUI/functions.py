@@ -5,10 +5,11 @@ import numpy as np
 import random
 import copy
 import chainer
-from chainer import Chain,cuda,Variable
+from chainer import Chain,cuda,Variable,serializers
 from gensim.models import word2vec
 import os
 import MeCab
+import models
 
 def reset_seed(seed=0):
     random.seed(seed)
@@ -122,3 +123,26 @@ def to_variable(texts, model):
         variables.append(Variable(np.asarray(text_w2v, dtype=np.float32)))
     
     return variables
+
+def load_models(context):
+    base = os.path.dirname(os.path.abspath(__file__))
+    base = os.path.normpath(os.path.join(base, '../data/models/'))
+
+    # RNN_Bottom
+    models_bottom = []
+    for i in range(5):
+        model_bottom = models.RNN_SINGLE()
+        serializers.load_npz(base+'/bottom/nsteplstm'+str(i)+'best.model', model_bottom)
+        models_bottom.append(model_bottom)
+
+    # other
+    base = os.path.normpath(os.path.join(base, '/context'+str(context)+'/'))
+
+    # RNN_Top
+    models_top = []
+    for i in range(5):
+        model_top = models.RNN_FINETUNING()
+        serializers.load_npz(base+'/top/nsteplstm'+str(i)+'best.model', model_top)
+        models_top.append(model_top)
+
+    return models_bottom, models_top

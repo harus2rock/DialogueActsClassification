@@ -27,6 +27,8 @@ class Classify:
 
     def classify(self, texts):
         print('Classify')
+        print(texts)
+
     
 if __name__ == '__main__':
     functions.reset_seed()
@@ -56,3 +58,7 @@ if __name__ == '__main__':
     print(consts.ACTS[np.argmax(ys[1])])
     print(consts.ACTS[np.argmax(ys[2])])
     print(consts.ACTS[np.argmax(ys[3])])
+
+    bottoms, tops = functions.load_models(3)
+    ys_bottom = [bottom(variables).data for bottom in bottoms]
+    print(ys_bottom)
