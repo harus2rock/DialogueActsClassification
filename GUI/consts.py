@@ -26,3 +26,4 @@ CONNECT = '1' # 何番目のファイルか
 CONST_TEST = 'Test Ok!'
 
 W2V_PATH = r'../data/word2vec/wiki2.model'
+ACTS = ['自己開示', '質問(Yes/No)', '質問(What)', '応答(Yes/No)', '応答(平叙)', 'あいづち', 'フィラー', '確認', '要求']

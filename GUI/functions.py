@@ -5,9 +5,10 @@ import numpy as np
 import random
 import copy
 import chainer
-from chainer import Chain,cuda
+from chainer import Chain,cuda,Variable
 from gensim.models import word2vec
 import os
+import MeCab
 
 def reset_seed(seed=0):
     random.seed(seed)
@@ -102,3 +103,22 @@ def load_w2v(path):
     model_w2v = word2vec.Word2Vec.load(path)
     print("Done.")
     return model_w2v
+
+def to_variable(texts, model):
+    variables = []
+    m = MeCab.Tagger("-Owakati")
+    for text in texts:
+        text_sp = m.parse(text)
+        # print(text_sp)
+        words = text_sp.split()
+
+        text_w2v = []
+        for word in words:
+            try:
+                text_w2v.append(model[word])
+            except KeyError:
+                pass
+
+        variables.append(Variable(np.asarray(text_w2v, dtype=np.float32)))
+    
+    return variables
