@@ -21,9 +21,11 @@ import MeCab
 xp = np
 
 # classにしちゃってw2vを保持する
+# 文脈長を保持するようにして文脈長毎にClassifyクラスを作るようにする
 class Classify:
-    def __init__(self):
+    def __init__(self, context):
         self.w2v = functions.load_w2v(consts.W2V_PATH)
+        self.context = int(context)
 
     def classify(self, texts):
         print('Classify')

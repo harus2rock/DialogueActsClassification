@@ -136,7 +136,7 @@ def load_models(context):
         models_bottom.append(model_bottom)
 
     # other
-    base = os.path.normpath(os.path.join(base, '/context'+str(context)+'/'))
+    base = os.path.normpath(os.path.join(base, './context'+str(context)+'/'))
 
     # RNN_Top
     models_top = []
