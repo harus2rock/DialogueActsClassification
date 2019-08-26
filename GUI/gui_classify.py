@@ -40,8 +40,6 @@ class ClassifyApp(ttk.Frame):
         
         # frame
         frameL = ttk.Frame(self,
-                           width = 200,
-                           height = 200,
                            padding = 10,
                            style = 'l.TFrame')        
         
@@ -133,8 +131,6 @@ class ClassifyApp(ttk.Frame):
         
         # frame
         frameR = ttk.Frame(self,
-                           width = 200,
-                           height = 200,
                            padding = 10,
                            style = 'r.TFrame')
         
@@ -344,7 +340,7 @@ class ClassifyApp(ttk.Frame):
                                  command = Send)        
 
         # show
-        cb_speaker.grid(row=0, column=0, sticky=(tk.W,tk.S,tk.N))
+        cb_speaker.grid(row=0, column=0, sticky=(tk.W,tk.S), pady=20)
         entry_utterance.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         button_send.grid(row=1, column=1, sticky=(tk.E,tk.W,tk.S,tk.N))
         
@@ -427,8 +423,8 @@ class ClassifyApp(ttk.Frame):
         frameR.rowconfigure(0, weight=1)
         
         # extend_column
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
+        self.columnconfigure(0, weight=1, uniform='group1')
+        self.columnconfigure(1, weight=1, uniform='group1')
         
         # extend_row
         self.rowconfigure(0, weight=1)
