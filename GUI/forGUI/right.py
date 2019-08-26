@@ -3,7 +3,39 @@ from tkinter import ttk
 from . import functions
 
 def create_note_classify(self):
-    pass
+    # _/_/ Classify Frame
+    # Labelframe
+    self.label_classify = ttk.Label(self.frame_CLASSIFY,
+                                    text = 'Classify',
+                                    style = 'nb.TLabel',
+                                    font = self.myfont)
+    self.frame_classify = ttk.LabelFrame(self.frame_CLASSIFY,
+                                         padding = 10,
+                                         labelwidget = self.label_classify,
+                                         width = 100,
+                                         height = 100,
+                                         style = 'nb.TLabelframe')
+
+    # _/_/ Send Frame
+    # Labelframe
+    self.label_send = ttk.Label(self.frame_CLASSIFY,
+                                text = 'Send a message',
+                                style = 'nb.TLabel',
+                                font = self.myfont)
+    self.frame_send = ttk.LabelFrame(self.frame_CLASSIFY,
+                                     padding = 10,
+                                     labelwidget = self.label_send,
+                                     width = 100,
+                                     height = 100,
+                                     style = 'nb.TLabelframe')
+    
+    # Show
+    self.frame_classify.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
+    self.frame_send.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
+    
+    self.frame_CLASSIFY.columnconfigure(0, weight=1)
+    self.frame_CLASSIFY.rowconfigure(0, weight=1)
+    self.frame_CLASSIFY.rowconfigure(1, weight=1)
 
 def create_note_people(self):
     pass

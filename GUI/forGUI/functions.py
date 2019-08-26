@@ -8,3 +8,7 @@ def length_changed(self, *args):
     g = self.length.get()
     print(g)
 
+def Send(self, *args):
+    ut = self.utterance.get()
+    print(ut)
+
