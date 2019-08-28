@@ -41,7 +41,7 @@ class Classify:
             ys_bottom_max.append(np.argmax(F.softmax(ys).data[self.context-1]))
         
         print('Bottom :')
-        functions.print_answers(ys_bottom, ys_bottom_max)
+        bottom_ans = functions.print_answers(ys_bottom, ys_bottom_max)
 
         # Others
         ys_top, ys_top_max = [], []
@@ -64,13 +64,18 @@ class Classify:
             ys_enova_max.append(np.argmax(y_enova))
 
         print('Top :')
-        functions.print_answers(ys_top, ys_top_max)
+        top_ans = functions.print_answers(ys_top, ys_top_max)
 
         print('OVA :')
-        functions.print_answers(ys_ova, ys_ova_max)
+        ova_ans = functions.print_answers(ys_ova, ys_ova_max)
 
         print('ENOVA :')
-        functions.print_answers(ys_enova, ys_enova_max)
+        enova_ans = functions.print_answers(ys_enova, ys_enova_max)
+
+        answers.append(consts.ACTS[bottom_ans])
+        answers.append(consts.ACTS[top_ans])
+        answers.append(consts.ACTS[ova_ans])
+        answers.append(consts.ACTS[enova_ans])
 
         return answers
 
@@ -82,3 +87,6 @@ if __name__ == '__main__':
     w2v = functions.load_w2v(consts.W2V_PATH)
     classify = Classify(len(texts), w2v)
     answers = classify.classify(texts)
+    print('Answers:')
+    print(answers)
+    print()

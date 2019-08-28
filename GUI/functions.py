@@ -159,5 +159,13 @@ def load_models(context):
 def print_answers(ys, ys_max):
     print(np.squeeze(ys))
     print(ys_max)
-    print([y[m] for y,m in zip(np.squeeze(np.asarray(ys)),ys_max)])
+
+    prob = [y[m] for y,m in zip(np.squeeze(np.asarray(ys)),ys_max)]
+    print(prob)
+
+    answer = ys_max[int(np.argmax(prob))]
+    print(answer)
+
     print()
+
+    return int(answer)
