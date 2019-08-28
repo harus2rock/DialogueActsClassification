@@ -5,62 +5,80 @@ Created on Thu Jun 27 14:12:55 2019
 @author: izumi
 """
 import numpy as np
+np.set_printoptions(linewidth=200, suppress=True)
 import consts
 import models
 import functions
 
 from gensim.models import word2vec
-from chainer import serializers
-import os
-import MeCab
+import chainer.functions as F
 
 """
 好きな発話から推定する．
 """
 
-xp = np
-
-# classにしちゃってw2vを保持する
-# 文脈長を保持するようにして文脈長毎にClassifyクラスを作るようにする
 class Classify:
-    def __init__(self, context):
-        self.w2v = functions.load_w2v(consts.W2V_PATH)
+    def __init__(self, context, w2v):
+        self.w2v = w2v
         self.context = int(context)
+        self.models_bottom, self.models_top, self.models_ova, self.models_enova = functions.load_models(self.context)
 
     def classify(self, texts):
-        print('Classify')
+        print('Classifying texts :')
         print(texts)
+        print()
+
+        xs = functions.to_variable(texts, self.w2v)
+        answers = []
+
+        # Bottom
+        ys_bottom, ys_bottom_max = [], []
+        hs_bottom = []
+        for model_bottom in self.models_bottom:
+            hs,ys = model_bottom(xs)
+            hs_bottom.append(hs)
+            ys_bottom.append(F.softmax(ys).data[self.context-1])
+            ys_bottom_max.append(np.argmax(F.softmax(ys).data[self.context-1]))
+        
+        print('Bottom :')
+        functions.print_answers(ys_bottom, ys_bottom_max)
+
+        # Others
+        ys_top, ys_top_max = [], []
+        ys_ova, ys_ova_max = [], []
+        ys_enova, ys_enova_max = [], []
+        for top, ova, enova, xs in zip(self.models_top, self.models_ova, self.models_enova, hs_bottom):
+            # Top
+            y_top = F.softmax(top([xs])).data
+            ys_top.append(y_top)
+            ys_top_max.append(np.argmax(y_top))
+
+            # OVA
+            y_ova = F.softmax(ova([xs])).data
+            ys_ova.append(y_ova)
+            ys_ova_max.append(np.argmax(y_ova))
+
+            # ENOVA
+            y_enova = F.softmax(enova([xs])).data
+            ys_enova.append(y_enova)
+            ys_enova_max.append(np.argmax(y_enova))
+
+        print('Top :')
+        functions.print_answers(ys_top, ys_top_max)
+
+        print('OVA :')
+        functions.print_answers(ys_ova, ys_ova_max)
+
+        print('ENOVA :')
+        functions.print_answers(ys_enova, ys_enova_max)
+
+        return answers
 
     
 if __name__ == '__main__':
     functions.reset_seed()
-
-    # word2vec読み込み
-    w2v = functions.load_w2v(consts.W2V_PATH)
-    # vocab = w2v.wv.vocab
-    # keys = vocab.keys()
-    # print(w2v['おはよう'])
-
-    # 試しにRNN_Bottomでclassify
-    model_bottom = models.RNN_SINGLE()
-    model_top = models.RNN_FINETUNING()
-
-    base = os.path.dirname(os.path.abspath(__file__))
-    path_bottom = os.path.normpath(os.path.join(base, '../data/models/bottom/nsteplstm0best.model'))
-    path_top = os.path.normpath(os.path.join(base, '../data/models/context3/top/nsteplstm0best.model'))
-    serializers.load_npz(path_bottom, model_bottom)
-    serializers.load_npz(path_top, model_top)
-
     texts = ['おはようございます','よろしくね','お元気ですか','へえー。']
-    variables = functions.to_variable(texts, w2v)
-    # print(type(variables[0]))
-    ys = model_bottom(variables).data
 
-    print(consts.ACTS[np.argmax(ys[0])])
-    print(consts.ACTS[np.argmax(ys[1])])
-    print(consts.ACTS[np.argmax(ys[2])])
-    print(consts.ACTS[np.argmax(ys[3])])
-
-    bottoms, tops = functions.load_models(3)
-    ys_bottom = [bottom(variables).data for bottom in bottoms]
-    print(ys_bottom)
+    w2v = functions.load_w2v(consts.W2V_PATH)
+    classify = Classify(len(texts), w2v)
+    answers = classify.classify(texts)

@@ -138,11 +138,26 @@ def load_models(context):
     # other
     base = os.path.normpath(os.path.join(base, './context'+str(context)+'/'))
 
-    # RNN_Top
     models_top = []
+    models_ova = []
+    models_enova = []
     for i in range(5):
         model_top = models.RNN_FINETUNING()
-        serializers.load_npz(base+'/top/nsteplstm'+str(i)+'best.model', model_top)
-        models_top.append(model_top)
+        model_ova = models.RNN_TOP()
+        model_enova = models.RNN_CONNECT_AT()
 
-    return models_bottom, models_top
+        serializers.load_npz(base+'/top/nsteplstm'+str(i)+'best.model', model_top)
+        serializers.load_npz(base+'/ova/nsteplstm'+str(i)+'best.model', model_ova)
+        serializers.load_npz(base+'/enova/nsteplstm'+str(i)+'best.model', model_enova)        
+
+        models_top.append(model_top)
+        models_ova.append(model_ova)
+        models_enova.append(model_enova)
+
+    return models_bottom, models_top, models_ova, models_enova
+
+def print_answers(ys, ys_max):
+    print(np.squeeze(ys))
+    print(ys_max)
+    print([y[m] for y,m in zip(np.squeeze(np.asarray(ys)),ys_max)])
+    print()

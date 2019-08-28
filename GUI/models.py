@@ -28,9 +28,9 @@ class RNN_SINGLE(Chain):
         #  FILENAME=0
         hy, _, _ = self.xh(None, None, xs)
         h = F.concat(F.concat(F.split_axis(hy, 2, axis=0),axis=2),axis=0)
-        h = F.dropout(F.relu(self.hh(h)))
-        y = self.hy(h)
-        return y
+        y = F.dropout(F.relu(self.hh(h)))
+        y = self.hy(y)
+        return h,y
 
 # RNN_Top用
 class RNN_FINETUNING(Chain):
@@ -81,7 +81,7 @@ class RNN_TOP(Chain):
             self.h_100_req = L.Linear(n_units*2, 100*2)
             self.h_1_req = L.Linear(100*2,1)
             
-    def __call__(self, xs, act):
+    def __call__(self, xs):
         """
         xs : list(Variable)
         y  : xp.array
@@ -89,33 +89,35 @@ class RNN_TOP(Chain):
         hy, _, _ = self.xh(None, None, xs)
         h = F.relu(F.concat(F.concat(F.split_axis(hy, 2, axis=0),axis=2),axis=0))
 
-        if act == 0:
-            h = F.dropout(F.relu(self.h_100_self(h)))
-            y = self.h_1_self(h)
-        elif act == 1:
-            h = F.dropout(F.relu(self.h_100_qyn(h)))
-            y = self.h_1_qyn(h)
-        elif act == 2:
-            h = F.dropout(F.relu(self.h_100_qw(h)))
-            y = self.h_1_qw(h)
-        elif act == 3:
-            h = F.dropout(F.relu(self.h_100_ayn(h)))
-            y = self.h_1_ayn(h)
-        elif act == 4:
-            h = F.dropout(F.relu(self.h_100_aw(h)))
-            y = self.h_1_aw(h)
-        elif act == 5:
-            h = F.dropout(F.relu(self.h_100_res(h)))
-            y = self.h_1_res(h)
-        elif act == 6:
-            h = F.dropout(F.relu(self.h_100_fil(h)))
-            y = self.h_1_fil(h)
-        elif act == 7:
-            h = F.dropout(F.relu(self.h_100_con(h)))
-            y = self.h_1_con(h)
-        elif act == 8:
-            h = F.dropout(F.relu(self.h_100_req(h)))
-            y = self.h_1_req(h)
+        h_self = F.dropout(F.relu(self.h_100_self(h)))
+        y_self = self.h_1_self(h_self)
+
+        h_qyn = F.dropout(F.relu(self.h_100_qyn(h)))
+        y_qyn = self.h_1_qyn(h_qyn)
+
+        h_qw = F.dropout(F.relu(self.h_100_qw(h)))
+        y_qw = self.h_1_qw(h_qw)
+
+        h_ayn = F.dropout(F.relu(self.h_100_ayn(h)))
+        y_ayn = self.h_1_ayn(h_ayn)
+
+        h_aw = F.dropout(F.relu(self.h_100_aw(h)))
+        y_aw = self.h_1_aw(h_aw)
+
+        h_res = F.dropout(F.relu(self.h_100_res(h)))
+        y_res = self.h_1_res(h_res)
+
+        h_fil = F.dropout(F.relu(self.h_100_fil(h)))
+        y_fil = self.h_1_fil(h_fil)
+
+        h_con = F.dropout(F.relu(self.h_100_con(h)))
+        y_con = self.h_1_con(h_con)
+
+        h_req = F.dropout(F.relu(self.h_100_req(h)))
+        y_req = self.h_1_req(h_req)
+
+        y = F.concat((y_self, y_qyn, y_qw, y_ayn, y_aw, y_res, y_fil, y_con, y_req))
+
         return y
 
 class RNN_CONNECT_AT(Chain):
