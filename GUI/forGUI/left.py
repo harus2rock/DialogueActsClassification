@@ -14,19 +14,28 @@ def create_innerparts(self):
     self.lb_utterances.bind('<<ListboxSelect>>', functions.listbox_selected)
     
     # Scrollbar
-    self.scrollbar = ttk.Scrollbar(self.frame_talk,
+    self.scrollx = ttk.Scrollbar(self.frame_talk,
+                                   orient=tk.HORIZONTAL,
+                                   command=self.lb_utterances.xview)
+    self.lb_utterances['xscrollcommand'] = self.scrollx.set
+
+    self.scrolly = ttk.Scrollbar(self.frame_talk,
                                    orient=tk.VERTICAL,
                                    command=self.lb_utterances.yview)
-    self.lb_utterances['yscrollcommand'] = self.scrollbar.set
+    self.lb_utterances['yscrollcommand'] = self.scrolly.set
 
     # _/_/ Show inner parts
     self.lb_utterances.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
-    self.scrollbar.grid(row=0, column=1, sticky=(tk.N,tk.S))
+    self.scrollx.grid(row=1, column=0, sticky=(tk.W,tk.E))
+
+    self.lb_utterances.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
+    self.scrolly.grid(row=0, column=1, sticky=(tk.N,tk.S))
 
     # extend_frametalk
     self.frame_talk.columnconfigure(0, weight=1)
     self.frame_talk.columnconfigure(1, weight=0)
     self.frame_talk.rowconfigure(0, weight=1)
+    self.frame_talk.rowconfigure(1, weight=0)
 
 
 def create_leftparts(self):
