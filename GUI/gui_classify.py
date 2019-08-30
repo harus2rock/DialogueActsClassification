@@ -69,28 +69,27 @@ class ClassifyApp(ttk.Frame):
         # _/ Wigets_Frame_talk
         def listbox_selected(*args):
             try:
-                g = length.get()
-                if 5 < int(g):
+                g = int(length.get())
+                if 5 < g:
                     length.set(5)
                     self.Contextlength = 5
                     g = 5
                     
-                for i in lb_utterances.curselection():                    
-                    if int(g) < 1 or int(i)+1 is 1:
-                        length.set(1)
-                        self.Contextlength = 1
-                        
-                    elif int(i)+1 <= int(g):
-                        length.set(int(i)+1)
-                        self.Contextlength = int(i)+1
+                (index,) = lb_utterances.curselection()
+
+                if g < 1 or index+1 is 1:                  
+                    length.set(1)
+                    self.Contextlength = 1
+                    
+                elif index+1 <= g:
+                    length.set(index+1)
+                    self.Contextlength = index+1
                 
                 g = int(length.get())
-                (index,) = lb_utterances.curselection()
-                self.texts = []
-                for i in range(int(index)-g+1, int(index)+1):
-                    utt = self.utterances[i]
-                    utt = utt.split(' : ')
-                    self.texts.append(utt[1])
+
+                self.texts = list(lb_utterances.get((index-g+1,),(index,)))
+                self.texts = [text.split(' : ')[1] for text in self.texts]
+
                 print('Classify texts : ')
                 print(self.texts)
 
@@ -101,9 +100,7 @@ class ClassifyApp(ttk.Frame):
 
             
         # Listbox
-        self.utterances = []
         lb_utterances = tk.Listbox(frame_talk,
-                                   listvariable=self.utterances,
                                    height=3,
                                    font = myfont)
         lb_utterances.bind('<<ListboxSelect>>', listbox_selected)
@@ -321,7 +318,6 @@ class ClassifyApp(ttk.Frame):
                     s = speaker.get()
                 inserttext = s+' : '+ut
                 lb_utterances.insert(tk.END, inserttext)
-                self.utterances.append(inserttext)
                 entry_utterance.delete(0, tk.END)
                 
         # Combobox
