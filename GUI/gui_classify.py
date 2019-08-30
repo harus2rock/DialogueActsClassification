@@ -10,14 +10,15 @@ import tkinter as tk
 from tkinter import ttk
 from gensim.models import word2vec
 import os
+import classify
 
 class ClassifyApp(ttk.Frame):
     
-    answers = ['自己開示','質問(Yes/No)','確認','要求']
-    Contextlength = 1
-    
     def __init__(self, master=None, model_w2v=None, keys=None):
         super().__init__(master)
+        self.answers = ['自己開示','質問(Yes/No)','確認','要求']
+        self.Contextlength = 1
+        self.texts = []
         self.create_widgets()
         
     def create_widgets(self):
