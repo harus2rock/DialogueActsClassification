@@ -62,39 +62,40 @@ class ClassifyApp(ttk.Frame):
         
         # _/ Wigets_Frame_talk
         def listbox_selected(*args):
-            print(lb_utterances.curselection())
-            g = length.get()
-            if 5 < int(g):
-                length.set(5)
-                self.Contextlength = 5
-                g = 5
-                print(5)
-                
-            for i in lb_utterances.curselection():                    
-                if int(g) < 1 or int(i)+1 is 1:
-                    length.set(1)
-                    self.Contextlength = 1
-                    print(int(i)-1)
-                    print(1)
+            try:
+                g = length.get()
+                if 5 < int(g):
+                    length.set(5)
+                    self.Contextlength = 5
+                    g = 5
                     
-                elif int(i)+1 <= int(g):
-                    length.set(int(i)+1)
-                    self.Contextlength = int(i)+1
-                    print(int(i)+1)
-                    print(int(g))
-            
-            index = lb_utterances.curselection()
-            utterances = []
-            for i in range(int(length.get())+1):
-                utterances.append(lb_utterances.get(index))
-            print(utterances)
+                for i in lb_utterances.curselection():                    
+                    if int(g) < 1 or int(i)+1 is 1:
+                        length.set(1)
+                        self.Contextlength = 1
+                        
+                    elif int(i)+1 <= int(g):
+                        length.set(int(i)+1)
+                        self.Contextlength = int(i)+1
+                
+                g = int(length.get())
+                (index,) = lb_utterances.curselection()
+                self.texts = []
+                for i in range(int(index)-g+1, int(index)+1):
+                    utt = self.utterances[i]
+                    utt = utt.split(' : ')
+                    self.texts.append(utt[1])
+                print('Classify texts : ')
+                print(self.texts)
+
+            except ValueError:
+                pass
 
             
         # Listbox
-        utterances = []
-        v_utterances = tk.StringVar(value=utterances)
+        self.utterances = []
         lb_utterances = tk.Listbox(frame_talk,
-                                   listvariable=v_utterances,
+                                   listvariable=self.utterances,
                                    height=3)
         lb_utterances.bind('<<ListboxSelect>>', listbox_selected)
         
@@ -187,12 +188,11 @@ class ClassifyApp(ttk.Frame):
             if g.isnumeric():
                 length.set(int(g))
                 self.Contextlength = int(g)
-                print(int(g))
 
             else:
                 length.set(1)
                 self.Contextlength = 1
-                print(1)
+
             print('Contextlength = '+str(self.Contextlength))
                 
             
@@ -298,7 +298,9 @@ class ClassifyApp(ttk.Frame):
                 if s not in cb_speaker['values']:
                     speaker.set(cb_speaker['values'][0])
                     s = speaker.get()
-                lb_utterances.insert(tk.END, s+' : '+ut)
+                inserttext = s+' : '+ut
+                lb_utterances.insert(tk.END, inserttext)
+                self.utterances.append(inserttext)
                 entry_utterance.delete(0, tk.END)
                 
         # Combobox
