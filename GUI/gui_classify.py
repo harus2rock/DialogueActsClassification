@@ -8,6 +8,7 @@ Created on Wed Jun 26 17:19:23 2019
 #import sys
 import tkinter as tk
 from tkinter import ttk
+from tkinter.font import Font
 from gensim.models import word2vec
 import os
 import classify
@@ -19,9 +20,13 @@ class ClassifyApp(ttk.Frame):
         self.answers = ['自己開示','質問(Yes/No)','確認','要求']
         self.Contextlength = 1
         self.texts = []
+        # self.models = [classify.Classify(),classify.Classify(),classify.Classify(),classify.Classify(),classify.Classify()]
         self.create_widgets()
         
     def create_widgets(self):
+        # Font
+        myfont = Font('',20)
+
         # sizegrip
         sizegrip = ttk.Sizegrip(self)
         
@@ -54,7 +59,8 @@ class ClassifyApp(ttk.Frame):
         # Labelframe
         label_talk = ttk.Label(frameL,
                                text = 'Talk',
-                               style = 'talk.TLabel')
+                               style = 'talk.TLabel',
+                               font=myfont)
         frame_talk = ttk.LabelFrame(frameL,
                                     padding = 10,
                                     labelwidget = label_talk,
@@ -88,6 +94,8 @@ class ClassifyApp(ttk.Frame):
                 print('Classify texts : ')
                 print(self.texts)
 
+                # self.models[g-1].classify(self.texts)
+
             except ValueError:
                 pass
 
@@ -96,7 +104,8 @@ class ClassifyApp(ttk.Frame):
         self.utterances = []
         lb_utterances = tk.Listbox(frame_talk,
                                    listvariable=self.utterances,
-                                   height=3)
+                                   height=3,
+                                   font = myfont)
         lb_utterances.bind('<<ListboxSelect>>', listbox_selected)
         
         # Scrollbar
@@ -173,7 +182,8 @@ class ClassifyApp(ttk.Frame):
         # Labelframe
         label_classify = ttk.Label(frame_CLASSIFY,
                                    text = 'Classify',
-                                   style = 'nb.TLabel')
+                                   style = 'nb.TLabel',
+                                   font = myfont)
         frame_classify = ttk.LabelFrame(frame_CLASSIFY,
                                         padding = 10,
                                         labelwidget = label_classify,
@@ -199,7 +209,8 @@ class ClassifyApp(ttk.Frame):
         # Label
         label_length = ttk.Label(frame_classify,
                                  text = 'Context Length : ',
-                                 style = 'nb.TLabel')
+                                 style = 'nb.TLabel',
+                                 font = myfont)
         # Spinbox
         length = tk.StringVar()
         length.trace('w', length_changed)
@@ -207,7 +218,8 @@ class ClassifyApp(ttk.Frame):
                                textvariable = length,
                                width = 5,
                                from_ = 1,
-                               to = 5)
+                               to = 5,
+                               font = myfont)
         cb_length.bind('<Return>', listbox_selected)
         
         # frame
@@ -221,16 +233,20 @@ class ClassifyApp(ttk.Frame):
         # Label
         label_nb = ttk.Label(frame_clL,
                              text = 'RNN_Bottom : ',
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         label_nt = ttk.Label(frame_clL,
                              text = 'RNN_Top : ',
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         label_no = ttk.Label(frame_clL,
                              text = 'OvA : ',
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         label_ne = ttk.Label(frame_clL,
                              text = 'ENOVA RNN : ',
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         
         # frame
         frame_clR = ttk.Frame(frame_classify,
@@ -240,16 +256,20 @@ class ClassifyApp(ttk.Frame):
 #        answers = ['自己開示','質問(Yes/No)','確認','要求']
         label_ab = ttk.Label(frame_clR,
                              text = self.answers[0],
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         label_at = ttk.Label(frame_clR,
                              text = self.answers[1],
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         label_ao = ttk.Label(frame_clR,
                              text = self.answers[2],
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         label_ae = ttk.Label(frame_clR,
                              text = self.answers[3],
-                             style = 'nb.TLabel')
+                             style = 'nb.TLabel',
+                             font = myfont)
         
         # show
         label_length.grid(row=0, column=0, sticky=(tk.W,tk.N))
@@ -281,7 +301,8 @@ class ClassifyApp(ttk.Frame):
         # Labelframe
         label_send = ttk.Label(frame_CLASSIFY,
                                text = 'Send a message',
-                               style = 'nb.TLabel')
+                               style = 'nb.TLabel',
+                               font = myfont)
         frame_send = ttk.LabelFrame(frame_CLASSIFY,
                                     padding = 10,
                                     labelwidget = label_send,
@@ -307,7 +328,8 @@ class ClassifyApp(ttk.Frame):
         speaker = tk.StringVar()
         cb_speaker = ttk.Combobox(frame_send,
                                   textvariable = speaker,
-                                  width = 10)
+                                  width = 10,
+                                  font = myfont)
         cb_speaker['values'] = ('A','B')
         cb_speaker.set(cb_speaker['values'][0])
         
@@ -315,7 +337,8 @@ class ClassifyApp(ttk.Frame):
         utterance = tk.StringVar()
         entry_utterance = ttk.Entry(frame_send,
                                     textvariable = utterance,
-                                    width = 10)
+                                    width = 10,
+                                    font = myfont)
         entry_utterance.bind('<Return>', Send)
         
         # Button
@@ -340,7 +363,8 @@ class ClassifyApp(ttk.Frame):
         # Labelframe
         label_select = ttk.Label(frame_PEOPLE,
                                  text = 'Select',
-                                 style = 'nb.TLabel')
+                                 style = 'nb.TLabel',
+                                 font = myfont)
         frame_select = ttk.LabelFrame(frame_PEOPLE,
                                       padding = 10,
                                       labelwidget = label_select,
@@ -352,7 +376,8 @@ class ClassifyApp(ttk.Frame):
         # Labelframe
         label_person = ttk.Label(frame_PEOPLE,
                                  text = 'PERSON',
-                                 style = 'nb.TLabel')
+                                 style = 'nb.TLabel',
+                                 font = myfont)
         frame_person = ttk.LabelFrame(frame_PEOPLE,
                                       padding = 10,
                                       labelwidget = label_person,
@@ -408,8 +433,8 @@ class ClassifyApp(ttk.Frame):
         frameR.rowconfigure(0, weight=1)
         
         # extend_column
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
+        self.columnconfigure(0, weight=1, uniform='group1')
+        self.columnconfigure(1, weight=1, uniform='group1')
         
         # extend_row
         self.rowconfigure(0, weight=1)
@@ -468,7 +493,7 @@ def main():
     root.title('Dialogue Acts Classification')
     
     # size
-    root.minsize(450,350)
+    root.minsize(800,400)
     
     # App
     # ClassifyApp(root, model_w2v=model_w2v, keys=keys)
