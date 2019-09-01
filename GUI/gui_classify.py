@@ -25,7 +25,7 @@ class ClassifyApp(ttk.Frame):
         
     def create_widgets(self):
         # Font
-        myfont = Font('',20)
+        myfont = Font(self,family=u'游ゴシック',size=20)
 
         # sizegrip
         sizegrip = ttk.Sizegrip(self)
@@ -87,8 +87,14 @@ class ClassifyApp(ttk.Frame):
                 
                 g = int(length.get())
 
-                self.texts = list(lb_utterances.get((index-g+1,),(index,)))
-                self.texts = [text.split(' : ')[1] for text in self.texts]
+                texts = list(lb_utterances.get((index-g+1,),(index,)))
+                self.texts = []
+                for text in texts:
+                    if ' : ' in text:
+                        self.texts.append(text.split(' : ')[1])
+                    else:
+                        self.texts.append(text)
+                # self.texts = [text.split(' : ')[1] for text in self.texts]
 
                 print('Classify texts : ')
                 print(self.texts)
@@ -338,7 +344,10 @@ class ClassifyApp(ttk.Frame):
                 if s not in cb_speaker['values']:
                     speaker.set(cb_speaker['values'][0])
                     s = speaker.get()
-                inserttext = s+' : '+ut
+                if s == '':
+                    inserttext = ut
+                else:
+                    inserttext = s+' : '+ut
                 lb_utterances.insert(tk.END, inserttext)
                 entry_utterance.delete(0, tk.END)
                 
@@ -348,7 +357,7 @@ class ClassifyApp(ttk.Frame):
                                   textvariable = speaker,
                                   width = 10,
                                   font = myfont)
-        cb_speaker['values'] = ('A','B')
+        cb_speaker['values'] = ('','A','B')
         cb_speaker.set(cb_speaker['values'][0])
         
         # Entry
@@ -393,7 +402,7 @@ class ClassifyApp(ttk.Frame):
         # _/ person
         # Labelframe
         label_person = ttk.Label(frame_PEOPLE,
-                                 text = 'PERSON',
+                                 text = 'Person',
                                  style = 'nb.TLabel',
                                  font = myfont)
         frame_person = ttk.LabelFrame(frame_PEOPLE,
