@@ -303,22 +303,38 @@ class ClassifyApp(ttk.Frame):
                 if s not in cb_speaker['values']:
                     speaker.set(cb_speaker['values'][0])
                     s = speaker.get()
-                if s == '':
+                if s == '(None)':
                     inserttext = ut
                 else:
                     inserttext = s+' : '+ut
                 lb_utterances.insert(tk.END, inserttext)
                 entry_utterance.delete(0, tk.END)
-                
+        # _/ User Combobox
+        # Frame
+        frame_user = ttk.Frame(frame_send,
+                               style = 'nb.TFrame')
+
+        # Label
+        label_user = ttk.Label(frame_user,
+                               text = 'User : ',
+                               style = 'nbinner.TLabel',
+                               font = myfont)
         # Combobox
         speaker = tk.StringVar()
-        cb_speaker = ttk.Combobox(frame_send,
+        cb_speaker = ttk.Combobox(frame_user,
                                   textvariable = speaker,
-                                  width = 10,
+                                  width = 7,
                                   font = myfont)
-        cb_speaker['values'] = ('','A','B')
+        cb_speaker['values'] = ('(None)','A','B')
         cb_speaker.set(cb_speaker['values'][0])
+
+        # Show
+        label_user.grid(row=0, column=0)
+        cb_speaker.grid(row=0, column=1)
+        frame_user.columnconfigure(0, weight=0)
+        frame_user.columnconfigure(1, weight=1)
         
+        # _/ Insert Message
         # Entry
         utterance = tk.StringVar()
         entry_utterance = ttk.Entry(frame_send,
@@ -334,7 +350,7 @@ class ClassifyApp(ttk.Frame):
                                  command = Send)        
 
         # show
-        cb_speaker.grid(row=0, column=0, sticky=(tk.W,tk.S,tk.N))
+        frame_user.grid(row=0, column=0, sticky=(tk.W))
         entry_utterance.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         button_send.grid(row=1, column=1, sticky=(tk.E,tk.W,tk.S,tk.N))
         
@@ -357,6 +373,11 @@ class ClassifyApp(ttk.Frame):
                                       width = 100,
                                       height = 100,
                                       style = 'nb.TLabelframe')
+
+        label_tbd = ttk.Label(frame_select,
+                              text = 'TBD.',
+                              style = 'nbinner.TLabel',
+                              font = myfont)
         
         # _/ person
         # Labelframe
@@ -370,11 +391,18 @@ class ClassifyApp(ttk.Frame):
                                       width = 100,
                                       height = 100,
                                       style = 'nb.TLabelframe')
-        
+
+        label_tbd2 = ttk.Label(frame_person,
+                              text = 'TBD.',
+                              style = 'nbinner.TLabel',
+                              font = myfont)
+
         # show
         frame_select.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         frame_person.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
-        
+        label_tbd.grid(row=0, column=0)
+        label_tbd2.grid(row=0, column=0)
+
         # _/_/_/ Add & Show Right_Notebook
         nb.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         nb.add(frame_CLASSIFY, text='CLASSIFY')
