@@ -94,8 +94,7 @@ class ClassifyApp(ttk.Frame):
                         self.texts.append(text.split(' : ')[1])
                     else:
                         self.texts.append(text)
-                # self.texts = [text.split(' : ')[1] for text in self.texts]
-
+ 
                 print('Classify texts : ')
                 print(self.texts)
 
@@ -278,7 +277,6 @@ class ClassifyApp(ttk.Frame):
                               style = 'nb.TFrame')
         
         # Label
-#        answers = ['自己開示','質問(Yes/No)','確認','要求']
         label_ab = ttk.Label(frame_clR,
                              text = self.answers[0],
                              style = 'nb.TLabel',
@@ -414,15 +412,7 @@ class ClassifyApp(ttk.Frame):
         
         # show
         frame_select.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
-#        frame_classify.columnconfigure(0, weight=1)
-#        frame_classify.rowconfigure(0, weight=1)
-        
         frame_person.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
-#        frame_send.columnconfigure(0, weight=1)
-#        frame_send.rowconfigure(0, weight=1)
-        
-        
-
         
         # _/_/_/ Add & Show Right_Notebook
         nb.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
@@ -473,45 +463,6 @@ class ClassifyApp(ttk.Frame):
 
 
 def main():
-    # wroed2vec保存しとくとこ
-    # model_w2v
-    # keys
-    
-    # def load_w2v(*args):
-    #     pb.start(10)
-    #     base = os.path.dirname(os.path.abspath(__file__))
-    #     name_w2v = os.path.normpath(os.path.join(base, r'../../data/word2vec/wiki2.model'))
-    #     # Load word2vec
-    #     print('Loading Word2Vector...')
-    #     global model_w2v
-    #     global keys
-    #     model_w2v = word2vec.Word2Vec.load(name_w2v)
-    #     vocab = model_w2v.wv.vocab
-    #     keys = vocab.keys()
-    #     print('Done.')
-    #     root.destroy()
-        
-    # # _/_/_/ Systems_Wait
-    # # main
-    # root = tk.Tk()
-    # # title
-    # root.title('Loading Word2Vector...')
-    # # Progressbar
-    # pb = ttk.Progressbar(root,
-    #                 orient = tk.HORIZONTAL,
-    #                 length = 200,
-    #                 mode = 'indeterminate')
-    # pb.configure(maximum=10, value=0)
-    # pb.pack()
-    # #button
-    # ttk.Button(root,
-    #            text = 'Load word2vec',
-    #            command = load_w2v).pack()
-    # # show
-    # root.mainloop()
-
-
-
     # _/_/_/ Systems_Classify
     # main
     root = tk.Tk()
@@ -523,7 +474,6 @@ def main():
     root.minsize(800,400)
     
     # App
-    # ClassifyApp(root, model_w2v=model_w2v, keys=keys)
     ClassifyApp(root)
 
     # show
@@ -532,214 +482,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-######################################## Test2 ########################################
-
-## _/_/_/ system
-#
-#root = tk.Tk()
-#
-## タイトル
-#root.title(u'ここはタイトル')
-#
-## ウィンドウサイズ変更 横幅x縦
-#root.minsize(600,200)
-#
-## サイズグリップ
-#sizegrip = ttk.Sizegrip(root)
-#sizegrip.grid(row=2, column=2, sticky=(tk.S,tk.E))
-#
-#
-## _/_/_/ 関数群
-#def button1_clicked():
-#    button1.state(['disabled'])
-#    
-#def cb1_clicked():
-#    print(v1.get())
-#
-#
-## _/_/_/ Frame_write
-#style_frameW = ttk.Style()
-#style_frameW.configure('w.TFrame',
-#                       foreground = 'saddle brown',
-#                       background = 'allice blue')
-#
-#frameW = ttk.Frame(
-#        root,
-#        height = 200,
-#        width = 400,
-#        relief = 'groove',
-#        style = 'w.TFrame')
-#
-#frameW.grid(row=1,column=2)
-#frameW.propagate(False)
-#
-## _/_/_/ Frame1
-## Style
-#style_frame1 = ttk.Style()
-#style_frame1.configure('a.TFrame', 
-#                       foreground = 'saddle brown', 
-#                       background = 'ghost white')
-#
-#style_label1 = ttk.Style()
-#style_label1.configure('a.TLabel', 
-#                       foreground = 'saddle brown', 
-#                       background = 'ghost white', 
-#                       padding = (5,10))
-#
-#style_button1 = ttk.Style()
-#style_button1.configure('a.TButton',
-#                        foreground = 'saddle brown')
-#
-#style_cb1 = ttk.Style()
-#style_cb1.configure('a.TCheckbutton',
-#                    foreground = 'saddle brown',
-#                    background = 'ghost white',
-#                    padding = (5,10))
-#
-## Frame
-#frame1 = ttk.Frame(
-#        frameW,
-#        height = 200,
-#        width = 400,
-#        relief = 'groove',
-#        borderwidth = 10,
-#        style = 'a.TFrame')
-#
-## Label
-#label1 = ttk.Label(
-#        frame1,
-#        text = 'Hello',
-#        background = '#0000aa',
-#        foreground = '#ffffff',
-#        style = 'a.TLabel')
-#
-#label2 = ttk.Label(
-#        frame1,
-#        text = 'World',
-#        background = '#ffffff',
-#        foreground = 'blue',
-#        width = 20,
-#        anchor = tk.E,
-#        style = 'a.TLabel')
-#
-## Button
-#button1 = ttk.Button(
-#        frame1,
-#        text = 'Quit',
-#        command = button1_clicked,
-#        style = 'a.TButton')
-#
-## Checkbutton
-#v1 = tk.StringVar()
-#
-#cb1 = ttk.Checkbutton(
-#        frame1,
-#        text = 'Option 1',
-#        onvalue = 'A',
-#        offvalue = 'B',
-#        variable = v1,
-#        command = cb1_clicked,
-#        style = 'a.TCheckbutton')
-#
-## Show
-#frame1.grid(row=1, column=1)
-#label1.grid(row=1, column=1)
-#label2.grid(row=1, column=2)
-#button1.grid(row=2, column=2)
-#cb1.grid(row=2, column=1)
-#
-#frame1.propagate(False)
-#
-#
-## _/_/_/ Frame2
-## Style
-#style_frame2 = ttk.Style()
-#style_frame2.configure('b.TFrame', 
-#                       foreground = 'blue4', 
-#                       background = 'white')
-#
-#style_label2 = ttk.Style()
-#style_label2.configure('b.TLabel', 
-#                       foreground = 'blue4', 
-#                       background = 'white', 
-#                       padding = (5,10))
-#
-## Frame
-#frame2 = ttk.Frame(
-#        root,
-#        height = 200,
-#        width = 200,
-#        relief = 'groove',
-#        borderwidth = 10,
-#        style = 'b.TFrame')
-#
-## Label
-##icon = tk.PhotoImage(file = 'face2.png')
-##icon = icon.subsample(6)
-##
-##label3 = ttk.Label(
-##        frame2,
-##        image = icon,
-##        style = 'b.TLabel')
-#
-#s = tk.StringVar()
-#s.set('Hello!')
-#
-#label4 = ttk.Label(
-#        frame2,
-#        textvariable = s,
-#        width = 30,
-#        anchor = tk.W,
-#        style = 'b.TLabel')
-#
-## Show
-#frame2.grid(row=1, column=1)
-##label3.grid(row=1, column=1)
-#label4.grid(row=1, column=2)
-#
-#frame2.propagate(False)
-#
-#root.mainloop()
-
-######################################## Test1 ########################################
-## _/_/_/ system
-#
-#root = tk.Tk()
-#
-## タイトル
-#root.title(u'ここはタイトル')
-#
-## ウィンドウサイズ変更 横幅x縦
-#root.minsize(600,200)
-## _/_/_/ ラベル
-## 出現
-#Static1 = tk.Label(text=u'▼ 以下に入力 ▼', foreground='#ff0000', background='#90caf9')
-#Static1.pack()
-#
-#Static2 = tk.Label(text=u'test', foreground='#ff0000', background='#90caf9')
-#Static2.place(x=150, y=228)
-#
-## _/_/_/ Entry
-## 出現
-#Entry1 = tk.Entry(width=50)
-#Entry1.insert(tk.END, u'発話をいれてね')
-#Entry1.pack()
-#
-## 取得
-#Entry1_value = Entry1.get()
-#print(Entry1_value)
-#
-## 値削除
-#Entry1.delete(0, tk.END)
-#
-## _/_/_/ Button
-## 出現
-#Button1 = tk.Button(text=u'push', width=10)
-#Button1.pack()
-#
-#
-#
-#root.mainloop()
