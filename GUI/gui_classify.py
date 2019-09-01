@@ -115,11 +115,25 @@ class ClassifyApp(ttk.Frame):
                                   orient=tk.HORIZONTAL,
                                   command=lb_utterances.xview)
         lb_utterances['xscrollcommand'] = scrollx.set
-        
+
+        def Delete(*args):
+            try:
+                index = lb_utterances.curselection()
+                lb_utterances.delete(index)
+            except:
+                pass
+
+        # Button
+        button_delete = ttk.Button(frame_talk,
+                                   text = 'Delete',
+                                   command = Delete,
+                                   width = 15)
+                
         # Show
         lb_utterances.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         scrolly.grid(row=0, column=1, sticky=(tk.N,tk.S))
         scrollx.grid(row=1, column=0, sticky=(tk.W,tk.E))
+        button_delete.grid(row=2, column=0)
         
         # _/_/ Show_Frame_talk
         # show
@@ -130,6 +144,7 @@ class ClassifyApp(ttk.Frame):
         frame_talk.columnconfigure(1, weight=0)
         frame_talk.rowconfigure(0, weight=1)
         frame_talk.rowconfigure(1, weight=0)
+        frame_talk.rowconfigure(2, weight=0)
         
         
         # _/_/_/ Right_BaseFrame
@@ -355,7 +370,7 @@ class ClassifyApp(ttk.Frame):
         entry_utterance.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         button_send.grid(row=1, column=1, sticky=(tk.E,tk.W,tk.S,tk.N))
         
-        frame_send.grid(row=1, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
+        frame_send.grid(row=1, column=0, sticky=(tk.E,tk.W))
         frame_send.columnconfigure(0, weight=1)
         frame_send.rowconfigure(0, weight=0)
         frame_send.rowconfigure(1, weight=0)
