@@ -115,17 +115,38 @@ class ClassifyApp(ttk.Frame):
             except:
                 pass
 
+        def Delete_All(*args):
+            try:
+                lb_utterances.delete(0,tk.END)
+            except:
+                pass
+
+        # Frame
+        frame_delete = ttk.Frame(frame_talk,
+                                 style = 'l.TFrame')
+
+        frame_emp = ttk.Frame(frame_delete,
+                              style = 'l.TFrame',
+                              width=20)
         # Button
-        button_delete = ttk.Button(frame_talk,
+        button_delete = ttk.Button(frame_delete,
                                    text = 'Delete',
                                    command = Delete,
                                    width = 15)
+        
+        button_deleteall = ttk.Button(frame_delete,
+                                      text = 'Delete All',
+                                      command = Delete_All,
+                                      width = 15)
                 
         # Show
+        button_delete.grid(row=0, column=0, sticky=(tk.W))
+        frame_emp.grid(row=0, column=1)
+        button_deleteall.grid(row=0, column=2, sticky=(tk.E))
         lb_utterances.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
         scrolly.grid(row=0, column=1, sticky=(tk.N,tk.S))
         scrollx.grid(row=1, column=0, sticky=(tk.W,tk.E))
-        button_delete.grid(row=2, column=0)
+        frame_delete.grid(row=2, column=0)
         
         # _/_/ Show_Frame_talk
         # show
