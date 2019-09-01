@@ -106,14 +106,20 @@ class ClassifyApp(ttk.Frame):
         lb_utterances.bind('<<ListboxSelect>>', listbox_selected)
         
         # Scrollbar
-        scrollbar = ttk.Scrollbar(frame_talk,
+        scrolly = ttk.Scrollbar(frame_talk,
                                   orient=tk.VERTICAL,
                                   command=lb_utterances.yview)
-        lb_utterances['yscrollcommand'] = scrollbar.set
+        lb_utterances['yscrollcommand'] = scrolly.set
+
+        scrollx = ttk.Scrollbar(frame_talk,
+                                  orient=tk.HORIZONTAL,
+                                  command=lb_utterances.xview)
+        lb_utterances['xscrollcommand'] = scrollx.set
         
         # Show
         lb_utterances.grid(row=0, column=0, sticky=(tk.E,tk.W,tk.S,tk.N))
-        scrollbar.grid(row=0, column=1, sticky=(tk.N,tk.S))
+        scrolly.grid(row=0, column=1, sticky=(tk.N,tk.S))
+        scrollx.grid(row=1, column=0, sticky=(tk.W,tk.E))
         
         # _/_/ Show_Frame_talk
         # show
@@ -123,6 +129,7 @@ class ClassifyApp(ttk.Frame):
         frame_talk.columnconfigure(0, weight=1)
         frame_talk.columnconfigure(1, weight=0)
         frame_talk.rowconfigure(0, weight=1)
+        frame_talk.rowconfigure(1, weight=0)
         
         
         # _/_/_/ Right_BaseFrame
