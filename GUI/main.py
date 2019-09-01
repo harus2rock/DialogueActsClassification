@@ -10,7 +10,7 @@ def main():
     root.title('Dialogue Acts Classification')
     
     # size
-    root.minsize(800,400)
+    root.minsize(800,550)
     
     # App
     gui_classify.ClassifyApp(master=root)

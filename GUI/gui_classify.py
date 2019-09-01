@@ -12,6 +12,7 @@ from tkinter.font import Font
 from gensim.models import word2vec
 import os
 import classify
+import styles
 
 class ClassifyApp(ttk.Frame):
     
@@ -21,6 +22,7 @@ class ClassifyApp(ttk.Frame):
         self.Contextlength = 1
         self.texts = []
         # self.models = [classify.Classify(),classify.Classify(),classify.Classify(),classify.Classify(),classify.Classify()]
+        styles.create_styles(self)
         self.create_widgets()
         
     def create_widgets(self):
@@ -31,13 +33,7 @@ class ClassifyApp(ttk.Frame):
         sizegrip = ttk.Sizegrip(self)
         
         
-        # _/_/_/ Left_BaseFrame
-        # style
-        style_frameL = ttk.Style()
-        style_frameL.configure('l.TFrame',
-                               foreground = 'saddle brown',
-                               background = 'alice blue')
-        
+        # _/_/_/ Left_BaseFrame        
         # frame
         frameL = ttk.Frame(self,
                            width = 200,
@@ -47,15 +43,6 @@ class ClassifyApp(ttk.Frame):
         
         
         # _/_/ Left_Frame_Talk
-        # style
-        style_frame_talk = ttk.Style()
-        style_frame_talk.configure('talk.TLabelframe',
-                                   foreground = 'blue4',
-                                   background = 'alice blue')
-        style_label_talk = ttk.Style()
-        style_label_talk.configure('talk.TLabel',
-                                   foreground = 'blue4',
-                                   background = 'alice blue')
         # Labelframe
         label_talk = ttk.Label(frameL,
                                text = 'Talk',
@@ -153,11 +140,6 @@ class ClassifyApp(ttk.Frame):
         
         
         # _/_/_/ Right_BaseFrame
-        # style
-        style_frameR = ttk.Style()
-        style_frameR.configure('r.TFrame',
-                               background = 'lemon chiffon')
-        
         # frame
         frameR = ttk.Frame(self,
                            width = 200,
@@ -167,27 +149,6 @@ class ClassifyApp(ttk.Frame):
         
         
         # _/_/_/ Right_Notebook
-        # style
-        style_nb = ttk.Style()
-        style_nb.configure('nb.TNotebook',
-                           foreground = 'saddle brown',
-                           background = 'lemon chiffon')
-        
-        style_frame_nb = ttk.Style()
-        style_frame_nb.configure('nb.TFrame',
-                                 foreground = 'saddle brown',
-                                 background = 'lemon chiffon')
-        
-        style_labelframe_nb = ttk.Style()
-        style_labelframe_nb.configure('nb.TLabelframe',
-                                      foreground = 'saddle brown',
-                                      background = 'lemon chiffon')
-        
-        style_label_nb = ttk.Style()
-        style_label_nb.configure('nb.TLabel',
-                                 foreground = 'saddle brown',
-                                 background = 'lemon chiffon')
-        
         # Notebook
         nb = ttk.Notebook(frameR,
                           style = 'nb.TNotebook')
@@ -233,7 +194,7 @@ class ClassifyApp(ttk.Frame):
         # Label
         label_length = ttk.Label(frame_classify,
                                  text = 'Context Length : ',
-                                 style = 'nb.TLabel',
+                                 style = 'nbinner.TLabel',
                                  font = myfont)
         # Spinbox
         length = tk.StringVar()
@@ -257,19 +218,19 @@ class ClassifyApp(ttk.Frame):
         # Label
         label_nb = ttk.Label(frame_clL,
                              text = 'RNN_Bottom : ',
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         label_nt = ttk.Label(frame_clL,
                              text = 'RNN_Top : ',
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         label_no = ttk.Label(frame_clL,
                              text = 'OvA : ',
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         label_ne = ttk.Label(frame_clL,
                              text = 'ENOVA RNN : ',
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         
         # frame
@@ -279,19 +240,19 @@ class ClassifyApp(ttk.Frame):
         # Label
         label_ab = ttk.Label(frame_clR,
                              text = self.answers[0],
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         label_at = ttk.Label(frame_clR,
                              text = self.answers[1],
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         label_ao = ttk.Label(frame_clR,
                              text = self.answers[2],
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         label_ae = ttk.Label(frame_clR,
                              text = self.answers[3],
-                             style = 'nb.TLabel',
+                             style = 'nbinner.TLabel',
                              font = myfont)
         
         # show
