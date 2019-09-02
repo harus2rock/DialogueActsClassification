@@ -5,7 +5,7 @@ Created on Thu Jun 27 14:12:55 2019
 @author: izumi
 """
 import numpy as np
-np.set_printoptions(linewidth=200, suppress=True)
+np.set_printoptions(linewidth=200, suppress=True, precision=3)
 import consts
 import models
 import functions
@@ -19,13 +19,14 @@ import chainer.functions as F
 
 class Classify:
     def __init__(self, context, w2v):
+        print('Context : '+str(context))
         self.w2v = w2v
         self.context = int(context)
         self.models_bottom, self.models_top, self.models_ova, self.models_enova = functions.load_models(self.context)
 
     def classify(self, texts):
-        print('Classifying texts :')
-        print(texts)
+        print('Context length : ' + str(self.context))
+        # print(texts)
         print()
 
         xs = functions.to_variable(texts, self.w2v)

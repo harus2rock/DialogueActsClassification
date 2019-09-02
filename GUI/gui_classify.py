@@ -13,6 +13,8 @@ from gensim.models import word2vec
 import os
 import classify
 import styles
+import functions
+import consts
 
 class ClassifyApp(ttk.Frame):
     
@@ -21,7 +23,10 @@ class ClassifyApp(ttk.Frame):
         self.answers = ['自己開示','質問(Yes/No)','確認','要求']
         self.Contextlength = 1
         self.texts = []
-        # self.models = [classify.Classify(),classify.Classify(),classify.Classify(),classify.Classify(),classify.Classify()]
+        self.w2v = functions.load_w2v(consts.W2V_PATH)
+        print('Classify class initialization...')
+        self.models = [classify.Classify(1, self.w2v),classify.Classify(2, self.w2v),classify.Classify(3, self.w2v),classify.Classify(4, self.w2v),classify.Classify(5, self.w2v)]
+        print('Done.')
         styles.create_styles(self)
         self.create_widgets()
         
@@ -85,7 +90,11 @@ class ClassifyApp(ttk.Frame):
                 print('Classify texts : ')
                 print(self.texts)
 
-                # self.models[g-1].classify(self.texts)
+                self.answers = self.models[g-1].classify(self.texts)
+                answer_bottom.set(self.answers[0])
+                answer_top.set(self.answers[1])
+                answer_ova.set(self.answers[2])
+                answer_enova.set(self.answers[3])
 
             except ValueError:
                 pass
@@ -258,21 +267,31 @@ class ClassifyApp(ttk.Frame):
         frame_clR = ttk.Frame(frame_classify,
                               style = 'nb.TFrame')
         
+        # StringVar
+        answer_bottom = tk.StringVar(master=frame_classify, value=self.answers[0])
+        answer_top = tk.StringVar(master=frame_classify, value=self.answers[1])
+        answer_ova = tk.StringVar(master=frame_classify, value=self.answers[2])
+        answer_enova = tk.StringVar(master=frame_classify, value=self.answers[3])
+
         # Label
         label_ab = ttk.Label(frame_clR,
-                             text = self.answers[0],
+                             textvariable = answer_bottom,
+                             width = 13,
                              style = 'nbinner.TLabel',
                              font = myfont)
         label_at = ttk.Label(frame_clR,
-                             text = self.answers[1],
+                             textvariable = answer_top,
+                             width = 13,
                              style = 'nbinner.TLabel',
                              font = myfont)
         label_ao = ttk.Label(frame_clR,
-                             text = self.answers[2],
+                             textvariable = answer_ova,
+                             width = 13,
                              style = 'nbinner.TLabel',
                              font = myfont)
         label_ae = ttk.Label(frame_clR,
-                             text = self.answers[3],
+                             textvariable = answer_enova,
+                             width = 13,
                              style = 'nbinner.TLabel',
                              font = myfont)
         
@@ -285,10 +304,10 @@ class ClassifyApp(ttk.Frame):
         label_no.grid(row=2, column=0, sticky=(tk.E,tk.S,tk.N))
         label_ne.grid(row=3, column=0, sticky=(tk.E,tk.S,tk.N))
         
-        label_ab.grid(row=0, column=0, sticky=(tk.W,tk.S,tk.N))
         label_at.grid(row=1, column=0, sticky=(tk.W,tk.S,tk.N))
         label_ao.grid(row=2, column=0, sticky=(tk.W,tk.S,tk.N))
         label_ae.grid(row=3, column=0, sticky=(tk.W,tk.S,tk.N))
+        label_ab.grid(row=0, column=0, sticky=(tk.W,tk.S,tk.N))
         
         frame_empty.grid(row=1, column= 0)
         

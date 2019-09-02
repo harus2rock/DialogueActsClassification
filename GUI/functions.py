@@ -10,6 +10,7 @@ from gensim.models import word2vec
 import os
 import MeCab
 import models
+import consts
 
 def reset_seed(seed=0):
     random.seed(seed)
@@ -109,6 +110,7 @@ def to_variable(texts, model):
     variables = []
     m = MeCab.Tagger("-Owakati")
     for text in texts:
+        text = normalize_neologd(text)
         text_sp = m.parse(text)
         # print(text_sp)
         words = text_sp.split()
@@ -158,14 +160,12 @@ def load_models(context):
 
 def print_answers(ys, ys_max):
     print(np.squeeze(ys))
-    print(ys_max)
+    print([consts.ACTS[m] for m in ys_max])
 
     prob = [y[m] for y,m in zip(np.squeeze(np.asarray(ys)),ys_max)]
     print(prob)
 
     answer = ys_max[int(np.argmax(prob))]
-    print(answer)
-
     print()
 
     return int(answer)
