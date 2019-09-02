@@ -355,6 +355,53 @@ class ClassifyApp(ttk.Frame):
                     inserttext = s+' : '+ut
                 lb_utterances.insert(tk.END, inserttext)
                 entry_utterance.delete(0, tk.END)
+
+            answer_bottom.set('...')
+            answer_top.set('...')
+            answer_ova.set('...')
+            answer_enova.set('...')
+            try:
+                g = int(length.get())
+                if 5 < g:
+                    length.set(5)
+                    self.Contextlength = 5
+                    g = 5
+                    
+                index = lb_utterances.index(tk.END)-1
+
+                if g < 1 or index+1 is 1:                  
+                    length.set(1)
+                    self.Contextlength = 1
+                    
+                elif index+1 <= g:
+                    length.set(index+1)
+                    self.Contextlength = index+1
+                
+                g = int(length.get())
+
+                texts = list(lb_utterances.get((index-g+1,),(index,)))
+                self.texts = []
+                for text in texts:
+                    if ' : ' in text:
+                        self.texts.append(text.split(' : ')[1])
+                    else:
+                        self.texts.append(text)
+ 
+                print('Classify texts : ')
+                print(self.texts)
+
+                self.answers = self.models[g-1].classify(self.texts)
+                if self.answers == []:
+                    self.answers = ['...', '...', '...', '...']
+                
+            except ValueError:
+                pass
+
+            answer_bottom.set(self.answers[0])
+            answer_top.set(self.answers[1])
+            answer_ova.set(self.answers[2])
+            answer_enova.set(self.answers[3])
+
         # _/ User Combobox
         # Frame
         frame_user = ttk.Frame(frame_send,
