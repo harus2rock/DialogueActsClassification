@@ -342,6 +342,7 @@ class ClassifyApp(ttk.Frame):
         
         # _/ Wigets_send
         def Send(*args):
+            # Send a message
             ut = utterance.get()
             print(ut)
             if ut is not '':
@@ -356,6 +357,7 @@ class ClassifyApp(ttk.Frame):
                 lb_utterances.insert(tk.END, inserttext)
                 entry_utterance.delete(0, tk.END)
 
+            # Classify messages
             answer_bottom.set('...')
             answer_top.set('...')
             answer_ova.set('...')
@@ -401,6 +403,9 @@ class ClassifyApp(ttk.Frame):
             answer_top.set(self.answers[1])
             answer_ova.set(self.answers[2])
             answer_enova.set(self.answers[3])
+
+            # Scroll
+            lb_utterances.see(tk.END)
 
         # _/ User Combobox
         # Frame
