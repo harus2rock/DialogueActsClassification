@@ -122,7 +122,8 @@ def to_variable(texts, model):
             except KeyError:
                 pass
 
-        variables.append(Variable(np.asarray(text_w2v, dtype=np.float32)))
+        if text_w2v != []:
+            variables.append(Variable(np.asarray(text_w2v, dtype=np.float32)))
     
     return variables
 

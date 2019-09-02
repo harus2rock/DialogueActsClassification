@@ -20,7 +20,7 @@ class ClassifyApp(ttk.Frame):
     
     def __init__(self, master=None, model_w2v=None, keys=None):
         super().__init__(master)
-        self.answers = ['自己開示','質問(Yes/No)','確認','要求']
+        self.answers = ['...','...','...','...']
         self.Contextlength = 1
         self.texts = []
         self.w2v = functions.load_w2v(consts.W2V_PATH)
@@ -60,6 +60,10 @@ class ClassifyApp(ttk.Frame):
         
         # _/ Wigets_Frame_talk
         def listbox_selected(*args):
+            answer_bottom.set('...')
+            answer_top.set('...')
+            answer_ova.set('...')
+            answer_enova.set('...')
             try:
                 g = int(length.get())
                 if 5 < g:
@@ -91,14 +95,16 @@ class ClassifyApp(ttk.Frame):
                 print(self.texts)
 
                 self.answers = self.models[g-1].classify(self.texts)
-                answer_bottom.set(self.answers[0])
-                answer_top.set(self.answers[1])
-                answer_ova.set(self.answers[2])
-                answer_enova.set(self.answers[3])
-
+                if self.answers == []:
+                    self.answers = ['...', '...', '...', '...']
+                
             except ValueError:
                 pass
 
+            answer_bottom.set(self.answers[0])
+            answer_top.set(self.answers[1])
+            answer_ova.set(self.answers[2])
+            answer_enova.set(self.answers[3])
             
         # Listbox
         lb_utterances = tk.Listbox(frame_talk,
