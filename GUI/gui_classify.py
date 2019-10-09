@@ -354,7 +354,9 @@ class ClassifyApp(ttk.Frame):
                     inserttext = ut
                 else:
                     inserttext = s+' : '+ut
+                lb_utterances.select_clear(tk.END)
                 lb_utterances.insert(tk.END, inserttext)
+                lb_utterances.select_set(tk.END)
                 entry_utterance.delete(0, tk.END)
 
             # Classify messages
