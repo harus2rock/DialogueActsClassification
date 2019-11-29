@@ -25,7 +25,7 @@ class ClassifyApp(ttk.Frame):
         self.texts = []
         self.w2v = functions.load_w2v(consts.W2V_PATH)
         print('Classify class initialization...')
-        self.models = [classify.Classify(1, self.w2v),classify.Classify(2, self.w2v),classify.Classify(3, self.w2v),classify.Classify(4, self.w2v),classify.Classify(5, self.w2v)]
+        self.models = [classify.Classify(1),classify.Classify(2),classify.Classify(3),classify.Classify(4),classify.Classify(5)]
         print('Done.')
         styles.create_styles(self)
         self.create_widgets()
@@ -94,7 +94,7 @@ class ClassifyApp(ttk.Frame):
                 print('Classify texts : ')
                 print(self.texts)
 
-                self.answers = self.models[g-1].classify(self.texts)
+                self.answers = self.models[g-1].classify(self.texts, self.w2v)
                 if self.answers == []:
                     self.answers = ['...', '...', '...', '...']
                 
@@ -394,7 +394,7 @@ class ClassifyApp(ttk.Frame):
                 print('Classify texts : ')
                 print(self.texts)
 
-                self.answers = self.models[g-1].classify(self.texts)
+                self.answers = self.models[g-1].classify(self.texts, self.w2v)
                 if self.answers == []:
                     self.answers = ['...', '...', '...', '...']
                 

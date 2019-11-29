@@ -18,18 +18,17 @@ import chainer.functions as F
 """
 
 class Classify:
-    def __init__(self, context, w2v):
+    def __init__(self, context):
         print('Context : '+str(context))
-        self.w2v = w2v
         self.context = int(context)
         self.models_bottom, self.models_top, self.models_ova, self.models_enova = functions.load_models(self.context)
 
-    def classify(self, texts):
+    def classify(self, texts, w2v):
         print('Context length : ' + str(self.context))
         # print(texts)
         print()
 
-        xs = functions.to_variable(texts, self.w2v)
+        xs = functions.to_variable(texts, w2v)
         answers = []
 
         if xs != []:
@@ -87,8 +86,8 @@ if __name__ == '__main__':
     texts = ['おはようございます','よろしくね','お元気ですか','へえー。']
 
     w2v = functions.load_w2v(consts.W2V_PATH)
-    classify = Classify(len(texts), w2v)
-    answers = classify.classify(texts)
+    classify = Classify(len(texts))
+    answers = classify.classify(texts, w2v)
     print('Answers:')
     print(answers)
     print()
